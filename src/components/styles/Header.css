@@ -1,0 +1,32 @@
+.navbar-content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.8fr 1fr 2.5fr 1fr 0.8fr 1.3fr;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.navbar-content .nav-link {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.search-form {
+    margin-left: 30px;
+    display: flex;
+    width: 50%;
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-form button {
+    white-space: nowrap;
+    margin-left: 8px;
+}
+
+.right-menu {
+    margin-left: auto;
+}
