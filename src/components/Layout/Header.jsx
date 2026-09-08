@@ -1,13 +1,27 @@
-import "../styles/Header.css"
+import "../styles/Header.css";
+import {useNavigate} from "react-router-dom"
+import {Link, NavLink} from "react-router-dom";
+
 
 const Header = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        console.log("logout k phle")
+        localStorage.removeItem("user");
+        console.log("logout k bad")
+        navigate("/login");
+        console.log("navigation k bad")
+    }
 
     return(
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
 
-                    <a className="navbar-brand mb-0 h1" href="#">
+                    <a className="navbar-brand mb-0 h1" href="/">
                         JobNest
                     </a>
 
@@ -31,7 +45,7 @@ const Header = () => {
                         <ul className="navbar-nav align-items-center">
 
                             <li className="nav-item">
-                                <a className="nav-link active" href="#">
+                                <a className="nav-link active" href="/">
                                     Home
                                 </a>
                             </li>
@@ -54,8 +68,8 @@ const Header = () => {
                             />
 
                             <button
-                                className="btn btn-outline-light"
-                                type="submit" style={{backgroundColor: "#7ca011"}}
+                                className="btn"
+                                type="submit" style={{backgroundColor: "#7ca011", color:"white"}}
                             >
                                 Find Jobs
                             </button>
@@ -75,13 +89,27 @@ const Header = () => {
                                     Profile
                                 </a>
                             </li>
-
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">
-                                    Login / Sign Up
-                                </a>
+                            {user ? (
+                                <li className="nav-item">
+                                <button type="button" className="btn btn-secondary btn-sm mt-1" onClick={handleLogout} data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    Logout
+                                </button>
+                            </li>
+                            ) : (
+                                <>
+                                <li className="nav-item">
+                                <NavLink className="nav-link" to="/login">
+                                    Login
+                                </NavLink>
                             </li>
 
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/register">
+                                    Register
+                                </NavLink>
+                            </li>
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>
