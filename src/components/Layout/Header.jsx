@@ -1,19 +1,21 @@
 import "../styles/Header.css";
 import {useNavigate} from "react-router-dom"
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {useAuth} from "../Context/auth"
 
 
 const Header = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    const navigate = useNavigate();
+    const [auth, setAuth] = useAuth();
+    // const user = JSON.parse(localStorage.getItem("user"));
 
     const handleLogout = () => {
-        console.log("logout k phle")
-        localStorage.removeItem("user");
-        console.log("logout k bad")
-        navigate("/login");
-        console.log("navigation k bad")
+        setAuth({
+            ...auth,
+            user: null,
+            token: "",
+        });
+        localStorage.removeItem("auth");
+        toast.success("Logout successfully");
     }
 
     return(
@@ -84,17 +86,38 @@ const Header = () => {
                                 </a>
                             </li>
 
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <a className="nav-link" href="#">
                                     Profile
                                 </a>
-                            </li>
-                            {user ? (
-                                <li className="nav-item">
-                                <button type="button" className="btn btn-secondary btn-sm mt-1" onClick={handleLogout} data-bs-toggle="modal" data-bs-target="#loginModal">
-                                    Logout
-                                </button>
-                            </li>
+                            </li> */}
+                            {auth?.user ? (
+
+                                <>
+                                <li className="nav-item dropdown " style={{listStyle: "none"}}>
+                                    <h4 className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i className="fa-solid fa-user" style={{color: "white"}}></i></h4>
+
+                                    <ul className="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <NavLink to={`/dashboard/${auth?.user?.__v === 1 ? "admin" : "user"}`} className="dropdown-item">
+                                            Dashboard
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink onClick={handleLogout} to="/login" className="dropdown-item">
+                                            Logout
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                </li>
+                                </>
+
+
+                            //     <li className="nav-item">
+                            //     <button type="button" className="btn btn-secondary btn-sm mt-1" onClick={handleLogout} data-bs-toggle="modal" data-bs-target="#loginModal">
+                            //         Logout
+                            //     </button>
+                            //    </li>
                             ) : (
                                 <>
                                 <li className="nav-item">

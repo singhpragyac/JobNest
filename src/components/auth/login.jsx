@@ -2,26 +2,30 @@ import React, {useState} from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom"
+import { useAuth } from "../Context/auth"
 
 var Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [auth, setAuth] = useAuth();
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("/api/v1/login", {email, password});
-            if(res.data.success) {
-                console.log("user login successful");
-                localStorage.setItem("user", JSON.stringify(res.data.user));
-             
-                toast.success("user login successful");
-                console.log("before navigate");
-                navigate("/");
-                console.log("after navigate");
-                return;
+            const res = await axios.post("/api/v1/auth/login", {email, password});
+            if (res && res.data.success) {
+                toast.success(res.data && res.data.message);
+                setAuth({
+                    ...auth,
+                    user: res.data.user,
+                    token: res.data.token,
+                });
+                localStorage.setItem("auth", JSON.stringify(res.data));
+                navigate(location.state || "/");
+            } else {
+                toast.success(res.data.message);
             }
         } catch(error) {
             console.log("FULL ERROR:", error);
