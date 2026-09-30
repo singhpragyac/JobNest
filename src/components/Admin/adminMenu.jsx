@@ -9,10 +9,10 @@ const AdminMenu = () => {
   
             <NavLink to="/dashboard/admin/post-job" className="list-group-item list-group-item-action">Post Jobs</NavLink>
             <NavLink to="/dashboard/admin/get-job" className="list-group-item list-group-item-action">All Jobs</NavLink>
-            <NavLink to="/dashboard/admin/update-job/:id" className="list-group-item list-group-item-action">Update Job</NavLink>
-            <NavLink to="" className="list-group-item list-group-item-action">Post Company</NavLink>
-            <NavLink to="" className="list-group-item list-group-item-action">All Company</NavLink>
-            <NavLink to="" className="list-group-item list-group-item-action">Update Company</NavLink>
+            {/* <NavLink to="/dashboard/admin/update-job/:id" className="list-group-item list-group-item-action">Update Job</NavLink> */}
+            <NavLink to="/dashboard/admin/post-company" className="list-group-item list-group-item-action">Post Company</NavLink>
+            <NavLink to="/dashboard/admin/get-company" className="list-group-item list-group-item-action">All Company</NavLink>
+            {/* <NavLink to="/dashboard/admin/update-company/:id" className="list-group-item list-group-item-action">Update Company</NavLink> */}
         </div>
         </>
     )

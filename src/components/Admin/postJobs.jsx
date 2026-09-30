@@ -2,36 +2,31 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import AdminMenu from "./adminMenu.jsx";
+import { useNavigate } from "react-router-dom";
 
 const PostJobs = () => {
+    const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
     const [salary, setSalary] = useState("");
     const [company, setCompany] = useState("");
     const [location, setLocation] = useState("");
-    const [jobType, setJobTitle] = useState("");
+    const [jobType, setJobType] = useState("");
     const [experience, setExperience] = useState("");
     const [skills, setSkill] = useState("");
     const [description, setDescription] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        alert("FORM SUBMITTED");
-        console.log("JOB DATA:", {
-        title,
-        description,
-        salary,
-        location
-    });
         try {
-            const job = await axios.post("/api/v1/job/post-job", {title, salary, company, location, jobType, experience, skills, description});
-            if(job.data.success) {
+            const {data} = await axios.post("/api/v1/job/post-job", {title, salary, company, location, jobType, experience, skills, description});
+            
+            if(data.success) {
                 toast.success("job successfully post");
+                navigate(`/dashboard/admin/get-job`);
             }
         } catch (error) {
-             console.log("STATUS:", error.response?.status);
-    console.log("DATA:", error.response?.data);
-    console.log("MESSAGE:", error.message);
+            console.log("STATUS:", error.response?.status);
         }
     }
 
@@ -72,7 +67,7 @@ const PostJobs = () => {
 
                         <div className="mb-3">
                             <label htmlFor="jobType" className="form-label">jobType</label>
-                            <input type="text" className="form-control" value={jobType} onChange={(e) => setJobTitle(e.target.value)} required />
+                            <input type="text" className="form-control" value={jobType} onChange={(e) => setJobType(e.target.value)} required />
                         </div>
 
                         <div className="mb-3">

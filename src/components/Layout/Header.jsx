@@ -2,11 +2,15 @@ import "../styles/Header.css";
 import {useNavigate} from "react-router-dom"
 import {NavLink} from "react-router-dom";
 import {useAuth} from "../Context/auth"
+import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 const Header = () => {
     const [auth, setAuth] = useAuth();
-    // const user = JSON.parse(localStorage.getItem("user"));
+    const [search, setSearch] = useState("");
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         setAuth({
@@ -16,7 +20,17 @@ const Header = () => {
         });
         localStorage.removeItem("auth");
         toast.success("Logout successfully");
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+
+        if (search.trim()) {
+        navigate(
+            `/?company=${encodeURIComponent(search.trim())}&title=${encodeURIComponent(search.trim())}`
+        );
     }
+    };
 
     return(
         <>
@@ -53,7 +67,7 @@ const Header = () => {
                             </li>
 
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
+                                <a className="nav-link" href="/company">
                                     Companies
                                 </a>
                             </li>
@@ -61,11 +75,13 @@ const Header = () => {
                         </ul>
 
                         {/* Search */}
-                        <form className="d-flex me-3 search-form" >
+                        <form className="d-flex me-3 search-form" onSubmit={handleSearch }>
                             <input
                                 className="form-control me-2"
                                 type="search"
                                 placeholder="Search"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
                                 aria-label="Search"
                             />
 
